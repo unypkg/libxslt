@@ -35,7 +35,7 @@ mkdir -pv /uny/sources
 cd /uny/sources || exit
 
 pkgname="libxslt"
-pkggit="https://github.com/libxslt/libxslt.git refs/tags/*"
+pkggit="https://gitlab.gnome.org/GNOME/libxslt.git refs/tags/*"
 gitdepth="--depth=1"
 
 ### Get version info from git remote
@@ -77,11 +77,12 @@ get_include_paths
 
 unset LD_RUN_PATH
 
-./configure \
-    --prefix=/uny/pkg/"$pkgname"/"$pkgver"
+./autogen.sh --prefix=/uny/pkg/"$pkgname"/"$pkgver" \
+    --disable-static                       \
+    --docdir=/usr/share/doc/libxslt
 
 make -j"$(nproc)"
-make -j"$(nproc)" check 
+
 make -j"$(nproc)" install
 
 ####################################################
